@@ -1,6 +1,6 @@
 package com.aonufrei.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.aonufrei.enums.AccountRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpecialtyInDto {
+public class AccountOutDto {
 
-	@NotBlank(message = "Name is required")
-	private String name;
+	private String id;
+
+	private AccountRole role;
+
+	private String email;
 
 }

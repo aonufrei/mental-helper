@@ -3,7 +3,7 @@ package com.aonufrei.therapist_service.service;
 import com.aonufrei.dto.SearchTherapistOutDto;
 import com.aonufrei.dto.TherapistInDto;
 import com.aonufrei.dto.TherapistOutDto;
-import com.aonufrei.dto.TherapistSearchDto;
+import com.aonufrei.dto.SearchTherapistDto;
 import com.aonufrei.therapist_service.model.Language;
 import com.aonufrei.therapist_service.model.Specialty;
 import com.aonufrei.therapist_service.model.Therapist;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class TherapistService {
 
+	private static final Integer DEFAULT_PAGE_SIZE = 10;
 	private final ModelMapper modelMapper;
 	private final TherapistRepo therapistRepo;
 
@@ -40,7 +40,7 @@ public class TherapistService {
 				.map(this::toOut).collect(Collectors.toList());
 	}
 
-	public List<SearchTherapistOutDto> search(TherapistSearchDto query) {
+	public List<SearchTherapistOutDto> search(SearchTherapistDto query) {
 		var page = Pageable.ofSize(query.getPageSize()).withPage(query.getPageNumber());
 		return therapistRepo.search(query.getLanguages(), query.getSpecialties(), page).stream()
 				.map(this::toSearchOut)
@@ -78,6 +78,20 @@ public class TherapistService {
 		therapistRepo.delete(toDelete);
 	}
 
+	public void modifySearchQuery(SearchTherapistDto query) {
+		if (query.getFromPrice() == null) {
+			query.setFromPrice(0);
+		}
+		if (query.getToPrice() == null) {
+			query.setToPrice(Integer.MAX_VALUE);
+		}
+		if (query.getPageSize() == null || query.getPageSize() < 0) {
+			query.setPageSize(DEFAULT_PAGE_SIZE);
+		}
+		if (query.getPageNumber() == null || query.getPageNumber() < 0) {
+			query.setPageNumber(0);
+		}
+	}
 
 	public Therapist toModel(TherapistInDto therapistInDto) {
 		var model = modelMapper.map(therapistInDto, Therapist.class);

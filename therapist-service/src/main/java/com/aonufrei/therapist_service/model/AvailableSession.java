@@ -6,18 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "specialty")
-public class Specialty {
+@Table(name = "available_session")
+public class AvailableSession {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name;
+	@ManyToOne
+	private Therapist therapist;
 
+	private DayOfWeek dayOfWeek;
+
+	private LocalTime time;
 }

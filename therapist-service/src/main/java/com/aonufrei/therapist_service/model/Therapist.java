@@ -52,8 +52,6 @@ public class Therapist {
 
 	private Integer price;
 
-	private LocalDate dob;
-
 	@Column(name = "creation_date")
 	@CreationTimestamp
 	private LocalDateTime creationDate;

@@ -1,9 +1,7 @@
 package com.aonufrei.therapist_service.rest;
 
-import com.aonufrei.dto.SearchTherapistOutDto;
-import com.aonufrei.dto.TherapistInDto;
-import com.aonufrei.dto.TherapistOutDto;
-import com.aonufrei.dto.TherapistSearchDto;
+import com.aonufrei.dto.*;
+import com.aonufrei.therapist_service.service.ScheduleService;
 import com.aonufrei.therapist_service.service.TherapistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +9,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/therapists")
 public class TherapistRestController {
 
-	private static final Integer DEFAULT_PAGE_SIZE = 10;
-
 	private static final Logger log = LoggerFactory.getLogger(TherapistRestController.class);
 	private final TherapistService therapistService;
+	private final ScheduleService scheduleService;
 
-	public TherapistRestController(TherapistService therapistService) {
+	public TherapistRestController(TherapistService therapistService, ScheduleService scheduleService) {
 		this.therapistService = therapistService;
+		this.scheduleService = scheduleService;
 	}
 
 
@@ -51,13 +51,8 @@ public class TherapistRestController {
 	}
 
 	@GetMapping("/search")
-	public List<SearchTherapistOutDto> search(@Validated @RequestBody TherapistSearchDto query) {
-		if (query.getPageSize() == null || query.getPageSize() < 0) {
-			query.setPageSize(DEFAULT_PAGE_SIZE);
-		}
-		if (query.getPageNumber() == null || query.getPageNumber() < 0) {
-			query.setPageNumber(0);
-		}
+	public List<SearchTherapistOutDto> search(@Validated @RequestBody SearchTherapistDto query) {
+		therapistService.modifySearchQuery(query);
 		return therapistService.search(query);
 	}
 
@@ -72,5 +67,21 @@ public class TherapistRestController {
 		}
 		return ResponseEntity.ok().body(true);
 	}
-	
+
+	@GetMapping("{id}/schedule/day")
+	public ScheduleOutDto getDaySchedule(@PathVariable Long id, @RequestParam DayOfWeek dayOfWeek) {
+		return scheduleService.getDaySchedule(id, dayOfWeek);
+	}
+
+	@GetMapping("{id}/schedule/week")
+	public List<ScheduleOutDto> getWeeklySchedule(@PathVariable Long id) {
+		return scheduleService.getWeeklySchedule(id);
+	}
+
+	@PutMapping("{id}/schedule")
+	public List<AvailableSessionOutDto> updateDaySchedule(@PathVariable Long id, @RequestParam DayOfWeek dayOfWeek, @RequestBody List<LocalTime> times) {
+		log.info("Updating day schedule");
+		return scheduleService.updateDayAvailability(id, dayOfWeek, times);
+	}
+
 }

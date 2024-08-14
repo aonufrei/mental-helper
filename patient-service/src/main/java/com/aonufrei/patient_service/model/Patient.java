@@ -34,11 +34,6 @@ public class Patient {
 	@Column(name = "image_url")
 	private String imageUrl;
 
-	@Column(name = "lang")
-	private String lang;
-
-	private LocalDate dob;
-
 	@Column(name = "creation_date")
 	@CreationTimestamp
 	private LocalDateTime creationDate;

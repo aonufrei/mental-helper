@@ -17,7 +17,7 @@ public class LanguageRestController {
 
 	private final Logger log = LoggerFactory.getLogger(LanguageRestController.class);
 
-	private LanguageService languageService;
+	private final LanguageService languageService;
 
 	public LanguageRestController(LanguageService languageService) {
 		this.languageService = languageService;

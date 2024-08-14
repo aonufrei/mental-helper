@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -45,8 +44,5 @@ public class TherapistInDto {
 
 	@JsonProperty("image_url")
 	private String imageUrl;
-
-	@NotNull(message = "Therapist date of birth is required")
-	private LocalDate dob;
 
 }
