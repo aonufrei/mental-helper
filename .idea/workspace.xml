@@ -4,41 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed207401-ad1d-43d7-a77a-4e487febd64a" name="Changes" comment="Added basic microservices">
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/config/AuthConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/config/ModelMapperConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/model/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/repo/AccountRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/rest/AuthRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/AccountInDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/AccountOutDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/AvailableSessionInDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/AvailableSessionOutDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/ChangePasswordRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/LoginDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/RegisterDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/ScheduleOutDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/enums/AccountRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/model/AvailableSession.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/repo/AvailableSessionRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="ed207401-ad1d-43d7-a77a-4e487febd64a" name="Changes" comment="Refactored code and added auth microservice">
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/RegisterPersonDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/client/AuthClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/config/ClientConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/SpecialtyInDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/SpecialtyInDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/SpecialtyOutDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/SpecialtyOutDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/TherapistInDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/TherapistInDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/TherapistOutDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/TherapistOutDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/TherapistSearchDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/SearchTherapistDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/util/DtoConvertor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/PatientInDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/PatientInDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/model/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/model/Specialty.java" beforeDir="false" afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/model/Specialty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/model/Therapist.java" beforeDir="false" afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/model/Therapist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/rest/LanguageRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/rest/LanguageRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/rest/TherapistRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/rest/TherapistRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/service/TherapistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/therapist-service/src/main/java/com/aonufrei/therapist_service/service/TherapistService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/rest/PatientRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/rest/PatientRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/service/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/service/PatientService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +32,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -112,7 +90,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.AuthServiceApplication">
+  <component name="RunManager" selected="Application.PatientServiceApplication">
     <configuration name="ApiGatewayApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.aonufrei.api_gateway.ApiGatewayApplication" />
       <module name="api-gateway" />
@@ -238,6 +216,27 @@
       <option name="presentableId" value="Default" />
       <updated>1720904488450</updated>
     </task>
+    <task id="LOCAL-00001" summary="Refactored code and added auth microservice">
+      <option name="closed" value="true" />
+      <created>1723647169064</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723647169064</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Refactored code and added auth microservice">
+      <option name="closed" value="true" />
+      <created>1723647176395</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723647176395</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactored code and added auth microservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored code and added auth microservice" />
   </component>
 </project>

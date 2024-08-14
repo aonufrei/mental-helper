@@ -1,6 +1,6 @@
 spring:
   application:
-    name: patient-service
+    name: auth-service
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}

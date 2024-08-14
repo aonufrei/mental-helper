@@ -2,7 +2,10 @@ package com.aonufrei.patient_service.rest;
 
 import com.aonufrei.dto.PatientInDto;
 import com.aonufrei.dto.PatientOutDto;
+import com.aonufrei.dto.RegisterPersonDto;
+import com.aonufrei.patient_service.model.Patient;
 import com.aonufrei.patient_service.service.PatientService;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +31,15 @@ public class PatientRestController {
 		return patientById.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().body(null));
 	}
 
+	@PostMapping("register")
+	public ResponseEntity<PatientOutDto> registerPatient(@Validated @RequestBody RegisterPersonDto<PatientInDto> payload) {
+		return ResponseEntity.ok(patientService.register(payload));
+	}
+
 	@PostMapping
-	public ResponseEntity<PatientOutDto> create(@Validated @RequestBody PatientInDto patientIn) {
+	public ResponseEntity<PatientOutDto> create(@RequestParam String accountId, @Validated @RequestBody PatientInDto patientIn) {
 		log.info("Creating new patient");
-		var patient = patientService.create(patientIn);
+		var patient = patientService.create(accountId, patientIn);
 		return ResponseEntity.ok(patient);
 	}
 

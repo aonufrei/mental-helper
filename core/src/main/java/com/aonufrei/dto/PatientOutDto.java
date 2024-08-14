@@ -27,10 +27,6 @@ public class PatientOutDto {
 	@JsonProperty("image_url")
 	private String imageUrl;
 
-	private String lang;
-
-	private LocalDate dob;
-
 	@JsonProperty("created_date")
 	private LocalDateTime creationDate;
 
