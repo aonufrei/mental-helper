@@ -1,6 +1,7 @@
 package com.aonufrei.auth_service.model;
 
 import com.aonufrei.enums.AccountRole;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -20,6 +21,7 @@ public class Account {
 
 	private AccountRole role;
 
+	@Column(unique = true)
 	private String email;
 
 	private String password;

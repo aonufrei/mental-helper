@@ -1,5 +1,6 @@
 package com.aonufrei.auth_service.service;
 
+import com.aonufrei.auth_service.dto.AccountSecurityDetails;
 import com.aonufrei.auth_service.model.Account;
 import com.aonufrei.auth_service.repo.AccountRepo;
 import com.aonufrei.dto.*;
@@ -10,14 +11,19 @@ import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -40,27 +46,42 @@ public class AccountService {
 		this.modelMapper = modelMapper;
 	}
 
-	public String login(AccountRole role, LoginDto loginDto) {
-		String accountId = accountRepo.findByEmail(loginDto.getEmail())
-				.filter(it -> it.getRole() == role)
+	public LoginOutDto login(LoginDto loginDto) {
+		return accountRepo.findByEmail(loginDto.getEmail())
 				.filter(it -> passwordEncoder.matches(loginDto.getPassword(), it.getPassword()))
-				.map(Account::getId).orElseThrow(() -> new RuntimeException("Failed to authenticate"));
-		return BEARER_PREFIX + createToken(accountId);
+				.map(a -> new LoginOutDto(BEARER_PREFIX + createToken(a.getId()), a.getRole()))
+				.orElseThrow(() -> new RuntimeException("Failed to authenticate"));
 	}
 
-	public AccountOutDto identifyUser(String token) {
+	public Optional<Account> identifyUserModel(String token) {
 		var accountId = getAccountIdFromToken(token.substring(BEARER_PREFIX.length()));
-		return accountRepo.findById(accountId)
-				.map(this::toOutDto)
-				.orElseThrow(() -> new RuntimeException("Account not found"));
+		return accountRepo.findById(accountId);
 	}
+
+//	public AccountOutDto identifyUser(String token) {
+//		return identifyUserModel(token)
+//				.map(this::toOutDto)
+//				.orElseThrow(() -> new RuntimeException("Account not found"));
+//	}
 
 	public AccountOutDto register(@NotNull AccountRole role, RegisterDto dto) {
 		validatePasswords(dto.getPassword(), dto.getReplyPassword());
+		if (accountRepo.findByEmail(dto.getEmail()).isPresent()) {
+			throw new RuntimeException("Account with provided email already exist");
+		}
 		var model = toModel(new AccountInDto(role, dto.getEmail(), passwordEncoder.encode(dto.getPassword())));
 		model.setId(UUID.randomUUID().toString());
 		var saved = accountRepo.save(model);
 		return toOutDto(saved);
+	}
+
+	public UserDetails getSecurityDetails(String token) throws UsernameNotFoundException {
+		return identifyUserModel(token).map(model -> new AccountSecurityDetails(
+				model.getId(),
+				model.getEmail(),
+				model.getRole(),
+				model.getPassword())
+				).orElseThrow(() -> new UsernameNotFoundException("Invalid token provided"));
 	}
 
 	public void changePassword(ChangePasswordRequestDto request) {
@@ -110,6 +131,13 @@ public class AccountService {
 
 	public AccountOutDto toOutDto(Account model) {
 		return modelMapper.map(model, AccountOutDto.class);
+	}
+
+	public static AccountSecurityDetails getCurrentAuth() {
+		var authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+		return authentication.map(Authentication::getPrincipal)
+				.map(p -> p instanceof AccountSecurityDetails ? (AccountSecurityDetails) p : null)
+				.orElseThrow(() -> new RuntimeException("No users authorized"));
 	}
 
 

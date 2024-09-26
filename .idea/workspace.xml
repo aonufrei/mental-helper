@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed207401-ad1d-43d7-a77a-4e487febd64a" name="Changes" comment="Refactored code and added auth microservice">
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/RegisterPersonDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/client/AuthClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/config/ClientConfig.java" afterDir="false" />
+    <list default="true" id="ed207401-ad1d-43d7-a77a-4e487febd64a" name="Changes" comment="Added register patient api and refactored code">
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/config/WebMvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/dto/AccountSecurityDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/filter/TokenFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/LoginOutDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/PatientInDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/aonufrei/dto/PatientInDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/model/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/rest/PatientRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/rest/PatientRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/service/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/patient-service/src/main/java/com/aonufrei/patient_service/service/PatientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/AuthServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/AuthServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/model/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/model/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/rest/AuthRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/rest/AuthRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/aonufrei/auth_service/service/AccountService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,32 +51,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ApiGatewayApplication.executor": "Run",
-    "Application.AppointmentServiceApplication.executor": "Run",
-    "Application.AuthServiceApplication.executor": "Run",
-    "Application.EurekaInstanceApplication.executor": "Run",
-    "Application.PatientServiceApplication.executor": "Run",
-    "Application.TherapistServiceApplication.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.core [clean,install].executor": "Run",
-    "Maven.core [clean,verify].executor": "Run",
-    "Maven.mental-helper [clean,install].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "zulu-17",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Work/mental-helper/auth-service/src/main/java/com/aonufrei/auth_service",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AppointmentServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EurekaInstanceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PatientServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TherapistServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.core [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.core [clean,verify].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mental-helper [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;zulu-17&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Work/mental-helper/auth-service/src/main/java/com/aonufrei/auth_service&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Work\mental-helper\auth-service\src\main\java\com\aonufrei\auth_service" />
@@ -90,7 +92,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.PatientServiceApplication">
+  <component name="RunManager" selected="Application.AuthServiceApplication">
     <configuration name="ApiGatewayApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.aonufrei.api_gateway.ApiGatewayApplication" />
       <module name="api-gateway" />
@@ -232,11 +234,31 @@
       <option name="project" value="LOCAL" />
       <updated>1723647176395</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added register patient api and refactored code">
+      <option name="closed" value="true" />
+      <created>1723650185619</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1723650185619</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactored code and added auth microservice" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored code and added auth microservice" />
+    <MESSAGE value="Added register patient api and refactored code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added register patient api and refactored code" />
   </component>
 </project>
