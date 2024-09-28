@@ -1,11 +1,14 @@
 package com.aonufrei.therapist_service.rest;
 
 import com.aonufrei.dto.*;
+import com.aonufrei.therapist_service.security.AccountDetails;
 import com.aonufrei.therapist_service.service.ScheduleService;
 import com.aonufrei.therapist_service.service.TherapistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +43,15 @@ public class TherapistRestController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<TherapistOutDto> update(@PathVariable Long id, @Validated @RequestBody TherapistInDto specialty) {
+	public ResponseEntity<TherapistOutDto> update(
+			@AuthenticationPrincipal AccountDetails accountDetails,
+			@PathVariable Long id,
+			@Validated @RequestBody TherapistInDto specialty) {
+
 		log.info("Update existing therapist with id [" + id + "]");
+		if (therapistService.doAccountBelongTo(accountDetails.getAccount().getId(), id)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
 		return ResponseEntity.ok(therapistService.update(id, specialty));
 	}
 
@@ -57,8 +67,11 @@ public class TherapistRestController {
 	}
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+	public ResponseEntity<Boolean> delete(@AuthenticationPrincipal AccountDetails accountDetails, @PathVariable Long id) {
 		log.info("Delete therapist with id [{}]", id);
+		if (therapistService.doAccountBelongTo(accountDetails.getAccount().getId(), id)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+		}
 		try {
 			therapistService.delete(id);
 		} catch (Exception ex) {
@@ -79,9 +92,17 @@ public class TherapistRestController {
 	}
 
 	@PutMapping("{id}/schedule")
-	public List<AvailableSessionOutDto> updateDaySchedule(@PathVariable Long id, @RequestParam DayOfWeek dayOfWeek, @RequestBody List<LocalTime> times) {
+	public ResponseEntity<List<AvailableSessionOutDto>> updateDaySchedule(
+			@AuthenticationPrincipal AccountDetails accountDetails,
+			@PathVariable Long id,
+			@RequestParam DayOfWeek dayOfWeek,
+			@RequestBody List<LocalTime> times) {
+
 		log.info("Updating day schedule");
-		return scheduleService.updateDayAvailability(id, dayOfWeek, times);
+		if (therapistService.doAccountBelongTo(accountDetails.getAccount().getId(), id)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+		return ResponseEntity.ok(scheduleService.updateDayAvailability(id, dayOfWeek, times));
 	}
 
 }

@@ -3,6 +3,8 @@ package com.aonufrei.auth_service.rest;
 import com.aonufrei.auth_service.service.AccountService;
 import com.aonufrei.dto.*;
 import com.aonufrei.enums.AccountRole;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +26,26 @@ public class AuthRestController {
 
 	@PostMapping("login")
 	public LoginOutDto login(@Validated @RequestBody LoginDto loginDto) {
+		log.info("New incoming login request from [{}]", loginDto.getEmail());
 		return accountService.login(loginDto);
 	}
 
 	@PostMapping("register")
 	public AccountOutDto register(@RequestParam AccountRole role, @Validated @RequestBody RegisterDto registerDto) {
+		log.info("Register [{}] user with email [{}]", role.name(), registerDto.getEmail());
 		return accountService.register(role, registerDto);
+	}
+
+	@GetMapping("identity")
+	public AccountOutDto getIdentity(HttpServletRequest http) {
+		String token = http.getHeader("Authorization");
+		if (StringUtils.isBlank(token)) throw new RuntimeException("Invalid token provided");
+		return accountService.identifyUser(token.substring("Bearer ".length()));
 	}
 
 	@PutMapping("change-password")
 	public ResponseEntity<Boolean> changePassword(@Validated @RequestBody ChangePasswordRequestDto payload) {
+		log.info("Changing password for account [{}]", payload.getAccountId());
 		var auth = AccountService.getCurrentAuth();
 		if (Objects.equals(payload.getAccountId(), auth.id())) {
 			return ResponseEntity.status(404).body(false);
@@ -44,6 +56,7 @@ public class AuthRestController {
 
 	@DeleteMapping
 	public ResponseEntity<Boolean> deleteAccount(@RequestParam String accountId) {
+		log.info("Deleting account [{}]", accountId);
 		var auth = AccountService.getCurrentAuth();
 		if (Objects.equals(accountId, auth.id())) {
 			return ResponseEntity.status(404).body(false);

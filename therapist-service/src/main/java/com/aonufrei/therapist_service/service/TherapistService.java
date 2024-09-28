@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,12 @@ public class TherapistService {
 		this.therapistRepo = therapistRepo;
 		this.languageService = languageService;
 		this.specialtyService = specialtyService;
+	}
+
+	public boolean doAccountBelongTo(String accountId, Long therapistId) {
+		return therapistRepo.findById(therapistId)
+				.map(it -> Objects.equals(it.getAccountId(), accountId))
+				.orElse(false);
 	}
 
 	public List<TherapistOutDto> getAll() {

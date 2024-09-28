@@ -8,18 +8,17 @@ import com.aonufrei.enums.AccountRole;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -49,20 +48,23 @@ public class AccountService {
 	public LoginOutDto login(LoginDto loginDto) {
 		return accountRepo.findByEmail(loginDto.getEmail())
 				.filter(it -> passwordEncoder.matches(loginDto.getPassword(), it.getPassword()))
-				.map(a -> new LoginOutDto(BEARER_PREFIX + createToken(a.getId()), a.getRole()))
+				.map(a -> new LoginOutDto(BEARER_PREFIX + createToken(a.getId()), a.getId(), a.getRole()))
 				.orElseThrow(() -> new RuntimeException("Failed to authenticate"));
 	}
 
 	public Optional<Account> identifyUserModel(String token) {
-		var accountId = getAccountIdFromToken(token.substring(BEARER_PREFIX.length()));
+		if (StringUtils.isBlank(token)) {
+			throw new RuntimeException("Invalid token provided");
+		}
+		var accountId = getAccountIdFromToken(token);
 		return accountRepo.findById(accountId);
 	}
 
-//	public AccountOutDto identifyUser(String token) {
-//		return identifyUserModel(token)
-//				.map(this::toOutDto)
-//				.orElseThrow(() -> new RuntimeException("Account not found"));
-//	}
+	public AccountOutDto identifyUser(String token) {
+		return identifyUserModel(token)
+				.map(this::toOutDto)
+				.orElseThrow(() -> new RuntimeException("Account not found"));
+	}
 
 	public AccountOutDto register(@NotNull AccountRole role, RegisterDto dto) {
 		validatePasswords(dto.getPassword(), dto.getReplyPassword());
@@ -81,7 +83,7 @@ public class AccountService {
 				model.getEmail(),
 				model.getRole(),
 				model.getPassword())
-				).orElseThrow(() -> new UsernameNotFoundException("Invalid token provided"));
+		).orElseThrow(() -> new UsernameNotFoundException("Invalid token provided"));
 	}
 
 	public void changePassword(ChangePasswordRequestDto request) {
